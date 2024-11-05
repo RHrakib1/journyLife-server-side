@@ -40,15 +40,27 @@ async function run() {
             res.send(tourist);
 
         });
+        app.get('/mylist/:email', async (req, res) => {
+            console.log(req.params.email);
+            const result = await collectionOfJurney.find({ email: req.params.email }).toArray();
+            res.send(result)
+        })
+
+        app.delete('/users/:id', async (req, res)=>{
+            const id = req.params.id
+            const quary = { _id: new ObjectId(id) }
+            const result = await collectionOfJurney.deleteOne(quary)
+            res.send(result)
+        })
+
+
 
 
 
         app.post('/journey', async (req, res) => {
             const user = req.body
-            console.log("this is user", user);
             const result = await collectionOfJurney.insertOne(user)
             res.send(result)
-            console.log('this is result ', result);
         })
 
 
