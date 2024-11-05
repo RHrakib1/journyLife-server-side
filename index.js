@@ -51,15 +51,24 @@ async function run() {
             const quary = { _id: new ObjectId(id) }
             const result = await collectionOfJurney.deleteOne(quary)
             res.send(result)
+
         })
 
-        app.put('/update/:id', async (req, res) => {
+        app.get('/update/:id', async (req, res) => {
+            const id = req.params.id
+            const quary = { _id: new ObjectId(id) }
+            const result = await coffeCollection.findOne(quary)
+            res.send(result)
+
+        })
+
+        app.put('/update/:id'), async (req, res) => {
             const id = req.param.id
             const filter = { _id: new ObjectId(id) }
             const option = { upsert: true }
             const updatecoffe = req.body
             const userspot = {
-                // spotName, location, averageCost, travleTime, countryName, shortDes, seasonality, totalvisit, url, rating
+
                 $set: {
                     spotName: updatecoffe.spotName,
                     location: updatecoffe.location,
@@ -74,7 +83,7 @@ async function run() {
 
                 }
             }
-            const result = collectionOfJurney.updateOne(filter, userspot, option)
+            const result = await collectionOfJurney.updateOne(filter, userspot, option)
             res.send(result)
         }
 
